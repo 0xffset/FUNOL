@@ -352,7 +352,7 @@ li.active {
 
 .about-icon { 
   color: #000;
-  text-align: center;  
+  text-align: justify;  
   width: 23%;
   padding-right: 80px; 
 }
@@ -369,7 +369,6 @@ li.active {
 
 .about-icon p {
   max-height: 100px;
-  overflow: hidden;
 }
 
 .box-1, .box-2 {
