@@ -151,16 +151,25 @@
   /*==================================================================
   [ Validate ]*/
   var input = $('.validate-input .input100');
+  $('.validate-form-signup').on('submit', function (e) {
+    e.preventDefault();
+    var name = $(input[0]).val();
+    var email = $(input[1]).val();
+    var password = $(input[2]).val();
+    let reponse = SignUp(email, password)
+
+
+  })
+
   $('.validate-form').on('submit', function (e) {
     e.preventDefault();
     if (validate(input[0]) == true && validate(input[1]) == true) {
       var email = $(input[0]).val();
       var password = $(input[1]).val();
       let response = SignIn(email, password);
-  
-      console.log(SignIn(email, password))
-     
-    } 
+
+
+    }
     var check = true;
 
     for (var i = 0; i < input.length; i++) {
@@ -184,7 +193,7 @@
   function validate(input) {
     if ($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
       if ($(input).val().trim().match(/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{1,5}|[0-9]{1,3})(\]?)$/) == null) {
-        console.log("1")
+
         return false;
       } else { return true; }
     }

@@ -14,14 +14,30 @@ firebase.auth();
 
 
 function SignUp(email, password) {
-    auth.createUserWithEmailAndPassword(email, password)
-        .then((res) => { return res });
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((res) => {
+            swal({
+                title: "Good job!",
+                text: "You has been signup successfully!",
+                icon: "success",
+                button: "Go to sigin!",
+            })
+                .then(() => { location.href = "login.html" })
+        })
+        .catch(error => {
+            swal({
+                title: "Ooops!",
+                text: error.message,
+                icon: "error",
+                dangerMode: true,
+            })
+        })
 
 }
 
 function SignIn(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((res) => { return res })
+        .then((res) => { console.log(res) })
         .catch(error => {
             swal({
                 title: "Ooops!",
