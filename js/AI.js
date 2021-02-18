@@ -15,9 +15,11 @@ let objects = [];
 let video;
 let canvas, ctx;
 const width = 500;
-const height = 600;
+const height = 400;
+
 
 async function make() {
+  
   // get the video
   video = await getVideo();
 
@@ -29,9 +31,18 @@ async function make() {
 
 // when the dom is loaded, call make();
 window.addEventListener('DOMContentLoaded', function() {
-  make();
+  //make();
 });
 
+
+
+function stopDetecting() {
+// stop only camera
+var child = document.querySelector('canvas')
+child.parentNode.removeChild(child)
+localStream.getVideoTracks()[0].stop();
+
+}
 function startDetecting(){
   console.log('model ready')
   detect();
@@ -76,14 +87,19 @@ function draw(){
 // Helper Functions
 async function getVideo(){
   // Grab elements, create settings, etc.
+  //const videoElement = document.getElementById('video-webcam');
   const videoElement = document.createElement('video');
   videoElement.setAttribute("style", "display: none;"); 
   videoElement.width = width;
   videoElement.height = height;
-  document.body.appendChild(videoElement);
+  document.getElementById("video-webcam").appendChild(videoElement);
+
+  //document.body.appendChild(videoElement);
 
   // Create a webcam capture
   const capture = await navigator.mediaDevices.getUserMedia({ video: true })
+ window.localStream = capture;
+  
   videoElement.srcObject = capture;
   videoElement.play();
 
@@ -94,6 +110,7 @@ function createCanvas(w, h){
   const canvas = document.createElement("canvas"); 
   canvas.width  = w;
   canvas.height = h;
-  document.body.appendChild(canvas);
+  //document.body.appendChild(canvas);
+  document.getElementById("video-webcam").appendChild(canvas);
   return canvas;
 }
