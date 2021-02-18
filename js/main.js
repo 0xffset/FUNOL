@@ -156,7 +156,7 @@
     var name = $(input[0]).val();
     var email = $(input[1]).val();
     var password = $(input[2]).val();
-    let reponse = SignUp(email, password)
+    let reponse = SignUp(email, password, name)
 
 
   })

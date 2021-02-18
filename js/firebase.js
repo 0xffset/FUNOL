@@ -10,19 +10,58 @@ var firebaseConfig = {
 };
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-firebase.auth();
 
 
-function SignUp(email, password) {
+function writeUserData(userId, name, email) {
+    firebase.database().ref('users/' + userId).set({
+        username: name,
+        email: email
+    });
+}
+
+
+function logOut() {
+    firebase.auth().signOut();
+    window.location = 'login.html';
+}
+function fetchSingleUser(userId) {
+    // var userId = firebase.auth().currentUser.uid;
+     firebase.database().ref('users/' + userId).once('value').then((snapshot) => {
+        var email = document.getElementById("username");
+        var name = document.createTextNode(snapshot.val().username)
+        email.appendChild(name)
+        var username = (snapshot.val() && snapshot.val().username && snapshot.val().email) || 'Anonymous';
+        console.log(username)
+
+    });
+}
+function onAuth() {
+    firebase.auth().onAuthStateChanged(user => {
+        if (user == null) {
+            window.location = 'login.html'
+            return false
+        } else {
+            fetchSingleUser(user.uid)
+            console.log(user.uid)
+        }
+    })
+}
+
+function SignUp(email, password, name) {
     firebase.auth().createUserWithEmailAndPassword(email, password)
         .then((res) => {
+            var code = firebase.auth().currentUser.uid;
+            writeUserData(code, name, email);
             swal({
                 title: "Good job!",
                 text: "You has been signup successfully!",
                 icon: "success",
                 button: "Go to sigin!",
             })
-                .then(() => { location.href = "login.html" })
+                .then(() => {
+
+                    location.href = "login.html"
+                })
         })
         .catch(error => {
             swal({
@@ -37,7 +76,7 @@ function SignUp(email, password) {
 
 function SignIn(email, password) {
     firebase.auth().signInWithEmailAndPassword(email, password)
-        .then((res) => { console.log(res) })
+        .then((res) => { location.href = "dashboard.html" })
         .catch(error => {
             swal({
                 title: "Ooops!",
