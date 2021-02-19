@@ -87,6 +87,18 @@ function onAuth() {
             window.location = 'login.html'
             return false
         } else {
+
+            fetchSingleUser(user.uid)
+        }
+    })
+}
+
+function goBack() {
+     firebase.auth().onAuthStateChanged(user => {
+        if (user == null) {
+            return false
+        } else {
+            window.location = 'dashboard.html'
             fetchSingleUser(user.uid)
         }
     })

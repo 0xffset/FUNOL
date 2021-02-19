@@ -5,16 +5,17 @@
     introJs().setOptions({
       steps: [{
         title: 'Bienvenido',
-        intro: 'Hola 👋 te demostraremos usar...'
+        intro: '¡Hola 👋 aprende a reciclar jugando!'
       },
       {
         element: document.querySelector('.start-button'),
-        intro: 'This step focuses on an image'
+        title: '¡Iniciar!',
+        intro: 'Toca iniciar 🏁 para correr el modelo de inteligencia artifical que detecta tus botellas'
       },
       {
-        title: 'Farewell!',
+        title: '¡Detener!',
         element: document.querySelector('.stop-button'),
-        intro: 'And this is our final step!'
+        intro: 'Toca detener 🛑 para parar el modelo de inteligencia artifical que detecta tus botellas'
       }]
     }).start();
 
