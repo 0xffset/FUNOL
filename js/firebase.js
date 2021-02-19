@@ -15,10 +15,57 @@ firebase.initializeApp(firebaseConfig);
 function writeUserData(userId, name, email) {
     firebase.database().ref('users/' + userId).set({
         username: name,
-        email: email
+        email: email,
+        bottles: 0
     });
 }
 
+fetchAllContents();
+
+function fetchAllContents() {
+    var count = 0;
+    var query = firebase.database().ref('users/');
+    query.once("value")
+        .then(function(snapshot) {
+           snapshot.forEach(function(childSnapshot) {
+                 count++;
+                var data = childSnapshot.val();
+                $("#data-appened").append(`<tr>
+      <th id="data-view"scope="row">${count}</th>
+      <td id="data-view">${data.username}</td>
+      <td id="data-view">${data.email}</td>
+      <td id="data-view">${data.bottles}</td>
+    </tr>`)
+            })
+        })
+       
+}
+
+function addBottles(userId) {
+    firebase.database().ref('users/' + userId).once('value').then((snapshot) => {
+       var bottles = snapshot.val().bottles;
+        // var username = (snapshot.val() && snapshot.val().username && snapshot.val().email) || 'Anonymous';
+       firebase.database().ref('users/'+ userId).update({'bottles' : (bottles+1) })
+       .then(res => {
+        $("#data-appened > tr").remove();
+
+        fetchAllContents()
+        $.toast({
+                heading: 'Enhorabuena!',
+                text: 'Se ha agragado una botella correctamente',
+                icon: 'success',
+                loader: true,        // Change it to false to disable loader
+                loaderBg: '#9EC600'  // To change the background
+})
+       })
+
+    });
+  
+}
+
+function getCurrentIdUser() {
+    return firebase.auth().currentUser.uid
+}
 
 function logOut() {
     firebase.auth().signOut();
@@ -30,8 +77,7 @@ function fetchSingleUser(userId) {
         var email = document.getElementById("username");
         var name = document.createTextNode(snapshot.val().username)
         email.appendChild(name)
-        var username = (snapshot.val() && snapshot.val().username && snapshot.val().email) || 'Anonymous';
-        console.log(username)
+        // var username = (snapshot.val() && snapshot.val().username && snapshot.val().email) || 'Anonymous';
 
     });
 }
@@ -42,7 +88,6 @@ function onAuth() {
             return false
         } else {
             fetchSingleUser(user.uid)
-            console.log(user.uid)
         }
     })
 }

@@ -75,6 +75,11 @@ function draw(){
     ctx.font = "16px Arial";
     ctx.fillStyle = "green";
     ctx.fillText(objects[i].label, objects[i].x + 4, objects[i].y + 16); 
+    if (objects[i].label == "bottle") {
+      let uid = getCurrentIdUser()
+      addBottles(uid);
+      stopDetecting();
+    }
     console.log(objects[i].label);
     ctx.beginPath();
     ctx.rect(objects[i].x, objects[i].y, objects[i].width, objects[i].height);
