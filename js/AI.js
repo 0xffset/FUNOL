@@ -1,12 +1,4 @@
-// Copyright (c) 2019 ml5
-//
-// This software is released under the MIT License.
-// https://opensource.org/licenses/MIT
 
-/* ===
-ml5 Example
-Real time Object Detection using objectDetector
-=== */
 
 let objectDetector;
 let status;
